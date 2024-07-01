@@ -30,8 +30,6 @@ def name_format(file_name: str):
     imdb_file_name = ' '.join(words)
     return imdb_file_name
 
-app = Client("RFADVANCEBOT")
-
 async def get_imdb(file_name):
     imdb_file_name = name_format(file_name)
     imdb = await get_poster(imdb_file_name)
@@ -44,20 +42,16 @@ async def get_imdb(file_name):
         )
         return imdb.get('title'), imdb.get('poster'), caption
     return None, None, None
-    
-async def send_movie_updates(client, file_name, file_id):
+
+async def send_movie_updates(bot, file_name, file_id):
     imdb_title, poster_url, caption = await get_imdb(file_name)
     if imdb_title in processed_movies:
         return
     processed_movies.add(imdb_title)
     if not poster_url or not caption:
         return
-    # Replace spaces in the movie title with underscores for URL encoding
-    encoded_movie_title = imdb_title.replace(" ", "_")
-    # Update the deep link URL to include the search query parameter
-    deep_link_url = f'https://t.me/{temp.U_NAME}?start=search_{encoded_movie_title}'
     btn = [
-        [InlineKeyboardButton('Get File', url=deep_link_url)]
+        [InlineKeyboardButton('Get File', url=f'https://t.me/{temp.U_NAME}?start=pm_mode_file_{ADMINS[0]}_{file_id}')]
     ]
     reply_markup = InlineKeyboardMarkup(btn)
-    await client.send_photo(chat_id=MOVIE_UPDATE_CHANNEL, photo=poster_url, caption=caption, reply_markup=reply_markup)
+    await bot.send_photo(MOVIE_UPDATE_CHANNEL, photo=poster_url, caption=caption, reply_markup=reply_markup)
