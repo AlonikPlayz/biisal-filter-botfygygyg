@@ -18,7 +18,6 @@ import base64
 from info import *
 import traceback
 logger = logging.getLogger(__name__)
-app = Client("RFAdvancebot")
 # CHECK COMPONENTS FOLDER FOR MORE COMMANDS
 @Client.on_message(filters.command("invite") & filters.private & filters.user(ADMINS))
 async def invite(client, message):
@@ -39,15 +38,6 @@ def detect_language(text):
         return response.text
     except Exception as e:
         return "hi"
-
-@app.on_message(filters.command("start"))
-async def start_command(client, message):
-    # Extract the parameter from the /start command
-    query = message.text.split(' ')[1] if len(message.text.split(' ')) > 1 else ''
-    if query.startswith('search_'):
-        search_query = query.split('search_')[1].replace('_', ' ')
-        # Call your existing search logic function
-        await auto_filter(client, message, spoll=False, pm_mode=True)
 
 @Client.on_message(filters.command("tts") & filters.private)
 async def tts(client, message):
