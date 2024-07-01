@@ -68,11 +68,6 @@ async def tts(client, message):
         except:pass
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client: Client, message):
-    command_parts = message.text.split("-", 1)
-    if len(command_parts) == 2 and command_parts[0] == "/start getfile":
-        await auto_filter(client, message)
-    else:
-        await message.reply("Welcome to the bot! Use the provided buttons to interact.")
     pm_mode = False
     try:
          data = message.command[1]
