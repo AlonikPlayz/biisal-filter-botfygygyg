@@ -243,7 +243,7 @@ Yᴏᴜʀ <ul>ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴ</ul> ᴡɪʟʟ ʙᴇ ᴀᴄᴛɪᴠ
 
 Title: {title}
 Rating: {rating}
-Genre: {genre}
+Genres: {genres}
 
 Description: {description}
 </b>"""
