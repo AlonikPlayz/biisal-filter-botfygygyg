@@ -7,7 +7,7 @@ import pytz
 from datetime import timedelta
 from datetime import datetime as dt
 from Script import script
-from pyrogram import Client, app, filters, enums
+from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup , ForceReply
 from database.ia_filterdb import Media, get_file_details, get_bad_files, unpack_new_file_id
@@ -18,6 +18,7 @@ import base64
 from info import *
 import traceback
 logger = logging.getLogger(__name__)
+app = Client("RFAdvancebot")
 # CHECK COMPONENTS FOLDER FOR MORE COMMANDS
 @Client.on_message(filters.command("invite") & filters.private & filters.user(ADMINS))
 async def invite(client, message):
