@@ -50,8 +50,10 @@ async def send_movie_updates(bot, file_name, file_id):
     processed_movies.add(imdb_title)
     if not poster_url or not caption:
         return
+    # Replace spaces in the movie title with underscores for URL encoding
+    encoded_movie_title = imdb_title.replace(" ", "_")
     btn = [
-        [InlineKeyboardButton('Get File', url=f'https://t.me/{temp.U_NAME}?start=pm_mode_file_{ADMINS[0]}_{file_id}')]
+        [InlineKeyboardButton('Get File', url=f'https://t.me/{temp.U_NAME}?start=getfile-{encoded_movie_title}')]
     ]
     reply_markup = InlineKeyboardMarkup(btn)
     await bot.send_photo(MOVIE_UPDATE_CHANNEL, photo=poster_url, caption=caption, reply_markup=reply_markup)
