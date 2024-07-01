@@ -61,13 +61,3 @@ async def send_movie_updates(client, file_name, file_id):
     ]
     reply_markup = InlineKeyboardMarkup(btn)
     await client.send_photo(chat_id=MOVIE_UPDATE_CHANNEL, photo=poster_url, caption=caption, reply_markup=reply_markup)
-
-# Define a handler for /start command
-@app.on_message(filters.command("start"))
-async def start_command(client, message):
-    # Extract the parameter from the /start command
-    query = message.text.split(' ')[1] if len(message.text.split(' ')) > 1 else ''
-    if query.startswith('search_'):
-        search_query = query.split('search_')[1].replace('_', ' ')
-        # Call your existing search logic function
-        await auto_filter(client, message, spoll=False, pm_mode=True)
