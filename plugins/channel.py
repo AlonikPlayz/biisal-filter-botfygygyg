@@ -71,6 +71,3 @@ async def start_command(client, message):
         search_query = query.split('search_')[1].replace('_', ' ')
         # Call your existing search logic function
         await auto_filter(client, message, spoll=False, pm_mode=True)
-
-# Run your Pyrogram
-app.run()
