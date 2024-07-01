@@ -73,3 +73,4 @@ async def start_command(client, message):
         await auto_filter(client, message, spoll=False, pm_mode=True)
 
 # Run your Pyrogram
+app.run()
