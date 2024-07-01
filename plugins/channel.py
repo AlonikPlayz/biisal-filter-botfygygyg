@@ -30,6 +30,8 @@ def name_format(file_name: str):
     imdb_file_name = ' '.join(words)
     return imdb_file_name
 
+app = Client("RFADVANCEBOT")
+
 async def get_imdb(file_name):
     imdb_file_name = name_format(file_name)
     imdb = await get_poster(imdb_file_name)
@@ -43,7 +45,7 @@ async def get_imdb(file_name):
         return imdb.get('title'), imdb.get('poster'), caption
     return None, None, None
     
-async def send_movie_updates(bot, file_name, file_id):
+async def send_movie_updates(client, file_name, file_id):
     imdb_title, poster_url, caption = await get_imdb(file_name)
     if imdb_title in processed_movies:
         return
@@ -52,8 +54,22 @@ async def send_movie_updates(bot, file_name, file_id):
         return
     # Replace spaces in the movie title with underscores for URL encoding
     encoded_movie_title = imdb_title.replace(" ", "_")
+    # Update the deep link URL to include the search query parameter
+    deep_link_url = f'https://t.me/{temp.U_NAME}?start=search_{encoded_movie_title}'
     btn = [
-        [InlineKeyboardButton('Get File', url=f'https://t.me/{temp.U_NAME}?start=getfile-{encoded_movie_title}')]
+        [InlineKeyboardButton('Get File', url=deep_link_url)]
     ]
     reply_markup = InlineKeyboardMarkup(btn)
-    await bot.send_photo(MOVIE_UPDATE_CHANNEL, photo=poster_url, caption=caption, reply_markup=reply_markup)
+    await client.send_photo(chat_id=MOVIE_UPDATE_CHANNEL, photo=poster_url, caption=caption, reply_markup=reply_markup)
+
+# Define a handler for /start command
+@app.on_message(filters.command("start"))
+async def start_command(client, message):
+    # Extract the parameter from the /start command
+    query = message.text.split(' ')[1] if len(message.text.split(' ')) > 1 else ''
+    if query.startswith('search_'):
+        search_query = query.split('search_')[1].replace('_', ' ')
+        # Call your existing search logic function
+        await auto_filter(client, message, spoll=False, pm_mode=True)
+
+# Run your Pyrogram
